@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'MySplashPage.dart';
 import 'package:camera/camera.dart';
 
-import 'HomePage.dart';
+import 'screens/home/HomePage.dart';
 
 late List<CameraDescription> cameras;
 
