@@ -1,13 +1,24 @@
-class registerscreen extends StatefulWidget {
-  const registerscreen({Key? key}) : super(key: key);
+import '../../screens/widgets/email_field.dart';
+import '../../screens/widgets/password_field.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-  @override
-  State<registerscreen> createState() => _registerscreenState();
-}
+import '../../data/bloc/register/register_bloc.dart';
+import '../../data/bloc/register/register_event.dart';
+import '../../data/bloc/register/register_state.dart';
+import '../../screens/constants/constants.dart';
 
-class _registerscreenState extends State<registerscreen> {
+class RegisterPageParent extends StatelessWidget {
+  const RegisterPageParent({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return BlocProvider(
+      create: (context) => RegisterBloc(),
+      child: RegisterScreen(),
+    );
   }
 }
+
+class RegisterScreen extends StatelessWidget {
+  RegisterScreen({Key key}) : super(key: key);
