@@ -1,13 +1,21 @@
-class appbar extends StatefulWidget {
-  const appbar({Key? key}) : super(key: key);
+import 'package:flutter/material.dart';
 
-  @override
-  State<appbar> createState() => _appbarState();
-}
+class AppBarTitle extends StatelessWidget {
+  final String title;
 
-class _appbarState extends State<appbar> {
+  const AppBarTitle({
+    this.title,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Text(
+      title,
+      style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+          fontSize: 17.0,
+          height: 1.3),
+    );
   }
 }
