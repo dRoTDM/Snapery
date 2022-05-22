@@ -64,3 +64,120 @@ class LoginScreen extends StatelessWidget {
                     fontSize: 28,
                   ),
                 ),
+
+                BlocListener<LoginBloc, LoginState>(
+                  listener: (context, state) {
+                    if (state is LoginSuccessfulState) {
+                      jumpToHomePage(
+                        context: context,
+                        firebaseUser: state.user,
+                      );
+                    }
+                  },
+                  child: BlocBuilder<LoginBloc, LoginState>(
+                    builder: (context, state) {
+                      if (state is LoginInitialState) {
+                        return SizedBox();
+                      } else if (state is LoginLoadingState) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (state is LoginSuccessfulState) {
+                        return SizedBox();
+                      } else if (state is LoginFailureState) {
+                        return Text(
+                          state.errorMsg,
+                          style: TextStyle(color: Colors.red),
+                        );
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(height: 25),
+                EmailField(emailCntrller: _emailCntrller),
+                SizedBox(height: 15),
+                PasswordField(passwordCntrller: _passwordCntrller),
+                SizedBox(height: 25),
+                Material(
+                  elevation: 2,
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(25),
+                  child: MaterialButton(
+                    padding: fieldTextContentPadding,
+                    minWidth: MediaQuery.of(context).size.width / 2,
+                    //Todo app login method
+                    onPressed: () async {
+                      if (_formKey.currentState.validate()) {
+                        loginBloc.add(
+                          LoginButtonPressed(
+                              email: _emailCntrller.text,
+                              password: _passwordCntrller.text),
+                        );
+                      }
+                    },
+                    child: Text(
+                      "Login",
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 25),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account?",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        jumpToRegisterPage(context: context);
+                      },
+                      child: Text(
+                        "Sign Up",
+                        style: TextStyle(
+                          color: Colors.yellow,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Material(
+                  elevation: 2,
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(25),
+                  child: MaterialButton(
+                    padding: fieldTextContentPadding,
+                    minWidth: MediaQuery.of(context).size.width / 2,
+                    //Todo app login method
+                    onPressed: () async {
+                      if (_formKey.currentState.validate()) {
+                        loginBloc.add(
+                          LoginButtonPressed(
+                              email: _emailCntrller.text,
+                              password: _passwordCntrller.text),
+                        );
+                      }
+                    },
+                    child: Text(
+                      "Google Sign In",
+                      style: TextStyle(color: Colors.black, fontSize: 15),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
