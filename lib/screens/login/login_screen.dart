@@ -1,13 +1,17 @@
-class login extends StatefulWidget {
-  const login({Key? key}) : super(key: key);
+import '../../screens/widgets/email_field.dart';
+import '../../screens/widgets/password_field.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 
-  @override
-  State<login> createState() => _loginState();
-}
+class LoginPageParent extends StatelessWidget {
+  const LoginPageParent({Key key}) : super(key: key);
 
-class _loginState extends State<login> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return BlocProvider(
+      create: (context) => LoginBloc(),
+      child: LoginScreen(),
+    );
   }
 }
