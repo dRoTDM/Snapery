@@ -1,94 +1,56 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use, import_of_legacy_library_into_null_safe, unnecessary_null_comparison, sized_box_for_whitespace, unused_import
-
-import 'package:camera/camera.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:snapery/main.dart';
-import 'package:snapery/MySplashPage.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:tflite/tflite.dart';
+
+class HomePageParent extends StatelessWidget {
+  final User firebaseUser;
+  const HomePageParent({Key key, @required this.firebaseUser})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => HomePageBloc(),
+      child: HomePage(
+        firebaseUser: firebaseUser,
+      ),
+    );
+  }
+}
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final User firebaseUser;
 
+  const HomePage({Key key, @required this.firebaseUser}) : super(key: key);
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isWorking = false;
-  String result = "";
-  late CameraImage imgCamera;
-  late CameraController cameraController;
+  HomePageBloc homePageBloc;
 
-  initCamera() {
-    cameraController = CameraController(cameras[0], ResolutionPreset.medium);
+  bool _loading = false;
+  PickedFile image;
+  final ImagePicker _picker = ImagePicker();
 
-    cameraController.initialize().then((value) {
-      if (!mounted) {
-        return;
-      }
+  void initState() {
+    homePageBloc = BlocProvider.of<HomePageBloc>(context);
+    super.initState();
+    _loading = true;
+
+    loadModel().then((value) {
       setState(() {
-        cameraController.startImageStream((imagesFromStream) => {
-              if (!isWorking)
-                {
-                  isWorking = true,
-                  imgCamera = imagesFromStream,
-                }
-            });
+        _loading = false;
       });
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SafeArea(
-          child: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage("assets/logo.jpg"))),
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  Center(
-                    child: Container(
-                      color: Colors.black,
-                      height: 300,
-                      width: 300,
-                      child: Image.asset("assets/logo.jpg"),
-                    ),
-                  ),
-                  Center(
-                    child: FlatButton(
-                      onPressed: () {
-                        initCamera();
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(top: 30),
-                        height: 270,
-                        width: 300,
-                        child: imgCamera == null
-                            ? Container(
-                                height: 270,
-                                width: 300,
-                                child: Icon(
-                                  Icons.photo_camera_front,
-                                  color: Colors.blueAccent,
-                                  size: 40,
-                                ),
-                              )
-                            : AspectRatio(
-                                aspectRatio: cameraController.value.aspectRatio,
-                                child: CameraPreview(cameraController),
-                              ),
-                      ),
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-      )),
+//Load the Tflite model
+  loadModel() async {
+    await Tflite.loadModel(
+      model: "assets/model.tflite",
+      labels: "assets/labels.txt",
     );
   }
-}
