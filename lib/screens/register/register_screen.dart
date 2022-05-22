@@ -72,3 +72,63 @@ class RegisterScreen extends StatelessWidget {
                   }
                 },
               ),
+              SizedBox(height: 25),
+              EmailField(emailCntrller: _emailCntrller),
+              SizedBox(height: 15),
+              PasswordField(passwordCntrller: _passwordCntrller),
+              SizedBox(height: 25),
+              Material(
+                elevation: 2,
+                color: Colors.green,
+                borderRadius: BorderRadius.circular(25),
+                child: MaterialButton(
+                  padding: fieldTextContentPadding,
+                  minWidth: MediaQuery.of(context).size.width / 2,
+                  //Todo app login method
+                  onPressed: () async {
+                    if (_formKey.currentState.validate()) {
+                      registerBloc.add(
+                        SignUpButtonPressedEvent(
+                            email: _emailCntrller.text,
+                            password: _passwordCntrller.text),
+                      );
+                    }
+                  },
+                  child: Text(
+                    "Register",
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                ),
+              ),
+              SizedBox(height: 25),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Already a member?",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  GestureDetector(
+                    //Todo add gesture detector navigation to register screen
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Text(
+                      "Sign in",
+                      style: TextStyle(
+                        color: Colors.yellow,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
