@@ -22,3 +22,53 @@ class RegisterPageParent extends StatelessWidget {
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({Key key}) : super(key: key);
+
+  final TextEditingController _emailCntrller = TextEditingController();
+  final TextEditingController _passwordCntrller = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  RegisterBloc registerBloc;
+
+  @override
+  Widget build(BuildContext context) {
+    registerBloc = BlocProvider.of<RegisterBloc>(context);
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.deepPurpleAccent,
+      body: Form(
+        key: _formKey,
+        child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Register',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 28,
+                ),
+              ),
+              BlocBuilder<RegisterBloc, RegisterState>(
+                // ignore: missing_return
+                builder: (context, state) {
+                  if (state is RegisterIntialState) {
+                    return SizedBox();
+                  } else if (state is RegisterLoadingState) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (state is RegisterSuccessfulState) {
+                    return Text(
+                      "User sucessfully Registered. You can sign in now",
+                      style: TextStyle(color: Colors.white),
+                    );
+                  } else if (state is RegisterFailureState) {
+                    return Text(
+                      state.errorMsg,
+                      style: TextStyle(color: Colors.red),
+                    );
+                  }
+                },
+              ),
