@@ -1,0 +1,26 @@
+[
+   {
+       "dietType":"Calorie-Surplus",
+       "breakfast":"peanut butter stuffed french toast, coffee, whip cream, maple syrup",
+       "lunch":"chicken rice bowl, soda, juice",
+       "snack":"chips",
+       "dinner":"steak/fish/chicken",
+       "totalCalorie":"3000"
+   },
+   {
+       "dietType":"Calorie-Maintenence",
+       "breakfast":"Scrambled eggs, otameal, fruits",
+       "lunch":"Ceaser salad, protein bowl with less carbs",
+       "snack":"Almonds",
+       "dinner":"baked chicken/salmon/shrimp with mashed potatoes/broccoli",
+       "totalCalorie":"2400"
+   },
+   {
+       "dietType":"Calorie-Deficit",
+       "breakfast":"protein smoothie",
+       "lunch":"protein bowl -> choice of meat",
+       "snack":"None",
+       "dinner":"Chicken or Salmon Salad with light dressing",
+       "totalCalorie":"1800"
+   }
+]
