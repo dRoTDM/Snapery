@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../config/app_navigation.dart';
+import '../constants/constants.dart';
+
 class BMICalculator extends StatelessWidget {
   final String username;
   const BMICalculator({Key key, @required this.username}) : super(key: key);
